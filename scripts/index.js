@@ -40,8 +40,18 @@ const player = new Fighter({
   },
   color: "yellow",
   imgSrc: "../sprites/characters/0/idle.png",
-  frameMax: 8,
   scale: 2.5,
+  frameMax: 8,
+  sprites: {
+    idle: {
+      imgSrc: "../sprites/characters/0/idle.png",
+      frameMax: 8,
+    },
+    run: {
+      imgSrc: "../sprites/characters/0/run.png",
+      frameMax: 8,
+    },
+  },
 });
 
 const enemy = new Fighter({
@@ -95,10 +105,13 @@ function animate() {
   player.velocity.x = 0;
   enemy.velocity.x = 0;
 
+  player.image = player.sprites.idle.image;
   if (keys.a.pressed && player.lastKey === "a") {
     player.velocity.x = -5;
+    player.image = player.sprites.run.image;
   } else if (keys.d.pressed && player.lastKey === "d") {
     player.velocity.x = 5;
+    player.image = player.sprites.run.image;
   }
 
   //Enemy animate
