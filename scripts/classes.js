@@ -1,16 +1,25 @@
 class Sprite {
-  constructor({ position, imgSrc, scale = 1, frameMax = 1 }) {
+  constructor({
+    position,
+    imgSrc,
+    scale = 1,
+    frameMax = 1,
+    currentFrame = 0,
+    framesElapsed = 0,
+    framesHold = 8,
+    offset = { x: 0, y: 0 },
+  }) {
     this.position = position;
-
+    this.offset = offset;
     this.height = 150;
     this.width = 50;
     this.image = new Image();
     this.image.src = imgSrc;
     this.scale = scale;
     this.frameMax = frameMax;
-    this.currentFrame = 0;
-    this.framesElapsed = 0;
-    this.framesHold = 8;
+    this.currentFrame = currentFrame;
+    this.framesElapsed = framesElapsed;
+    this.framesHold = framesHold;
   }
 
   draw() {
@@ -20,15 +29,14 @@ class Sprite {
       0,
       this.image.width / this.frameMax,
       this.image.height,
-      this.position.x,
-      this.position.y,
+      this.position.x - this.offset.x,
+      this.position.y - this.offset.y,
       (this.image.width / this.frameMax) * this.scale,
       this.image.height * this.scale
     );
   }
 
-  update() {
-    this.draw();
+  animateFrames() {
     this.framesElapsed++;
     if (this.framesElapsed % this.framesHold === 0) {
       if (this.currentFrame < this.frameMax - 1) {
@@ -38,11 +46,36 @@ class Sprite {
       }
     }
   }
+
+  update() {
+    this.draw();
+    this.animateFrames();
+  }
 }
 
-class Fighter {
-  constructor({ position, velocity, color = "red", offset }) {
-    this.position = position;
+class Fighter extends Sprite {
+  constructor({
+    position,
+    velocity,
+    color = "red",
+    offset = { x: 0, y: 0 },
+    imgSrc,
+    frameMax = 1,
+    scale = 1,
+    currentFrame = 0,
+    framesElapsed = 0,
+    framesHold = 8,
+  }) {
+    super({
+      position,
+      offset,
+      imgSrc,
+      scale,
+      frameMax,
+      currentFrame,
+      framesElapsed,
+      framesHold,
+    });
     this.velocity = velocity;
     this.height = 150;
     this.width = 50;
@@ -62,28 +95,29 @@ class Fighter {
     this.health = 100;
   }
 
-  draw() {
-    canvasContext.fillStyle = this.color;
-    canvasContext.fillRect(
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height
-    );
-    if (this.isAttacking) {
-      canvasContext.fillStyle = "Red";
-      canvasContext.fillRect(
-        this.attackBox.position.x,
-        this.attackBox.position.y,
-        this.attackBox.width,
-        this.attackBox.height
-      );
-    }
-  }
+  // draw() {
+  //   canvasContext.fillStyle = this.color;
+  //   canvasContext.fillRect(
+  //     this.position.x,
+  //     this.position.y,
+  //     this.width,
+  //     this.height
+  //   );
+  //   if (this.isAttacking) {
+  //     canvasContext.fillStyle = "Red";
+  //     canvasContext.fillRect(
+  //       this.attackBox.position.x,
+  //       this.attackBox.position.y,
+  //       this.attackBox.width,
+  //       this.attackBox.height
+  //     );
+  //   }
+  // }
 
   update() {
     this.draw();
 
+    this.animateFrames();
     this.attackBox.position.x = this.position.x - this.attackBox.offset.x;
     this.attackBox.position.y = this.position.y;
 
