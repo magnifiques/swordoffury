@@ -38,7 +38,6 @@ const player = new Fighter({
     x: 215,
     y: 157,
   },
-  color: "yellow",
   imgSrc: "../sprites/characters/0/idle.png",
   scale: 2.5,
   frameMax: 8,
@@ -68,18 +67,43 @@ const player = new Fighter({
 
 const enemy = new Fighter({
   position: {
-    x: 964,
+    x: 400,
     y: 0,
   },
   velocity: {
     x: 0,
     y: 0,
   },
+
   offset: {
-    x: 50,
-    y: 0,
+    x: 215,
+    y: 167,
   },
-  color: "white",
+  imgSrc: "../sprites/characters/1/idle.png",
+  scale: 2.5,
+  frameMax: 4,
+  sprites: {
+    idle: {
+      imgSrc: "../sprites/characters/1/idle.png",
+      frameMax: 4,
+    },
+    run: {
+      imgSrc: "../sprites/characters/1/run.png",
+      frameMax: 8,
+    },
+    jump: {
+      imgSrc: "../sprites/characters/1/jump.png",
+      frameMax: 2,
+    },
+    fall: {
+      imgSrc: "../sprites/characters/1/fall.png",
+      frameMax: 2,
+    },
+    attack1: {
+      imgSrc: "../sprites/characters/1/attack1.png",
+      frameMax: 4,
+    },
+  },
 });
 
 keys = {
@@ -112,7 +136,7 @@ function animate() {
   background.update();
   shop.update();
   player.update();
-  //enemy.update();
+  enemy.update();
 
   player.velocity.x = 0;
   enemy.velocity.x = 0;
@@ -133,11 +157,24 @@ function animate() {
   } else if (player.velocity.y > 0) {
     player.switchSprite("fall");
   }
-  //Enemy animate
+
+  //!Enemy animate
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
+    enemy.switchSprite("run");
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
+    enemy.switchSprite("run");
+  } else {
+    enemy.switchSprite("idle");
+  }
+
+  //*Enemy Jumps
+
+  if (enemy.velocity.y < 0) {
+    enemy.switchSprite("jump");
+  } else if (enemy.velocity.y > 0) {
+    enemy.switchSprite("fall");
   }
 
   // if (player.position.x > enemy.position.x) {
