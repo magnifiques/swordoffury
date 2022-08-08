@@ -15,21 +15,24 @@ function determineWinner({ player, enemy, timerId }) {
 
   document.querySelector("#verdict").style.opacity = 1;
   if (player.health === enemy.health) {
-    document.querySelector("#verdict").innerHTML = "tie";
+    document.querySelector("#verdict").innerHTML =
+      "tie!<br />Please reload the page to play again!";
     player.dead = true;
     enemy.dead = true;
   }
 
   if (player.health > enemy.health) {
-    document.querySelector("#verdict").innerHTML = "Player wins!";
+    document.querySelector("#verdict").innerHTML =
+      "Player wins!<br />Please reload the page to play again!";
   }
 
   if (player.health < enemy.health) {
-    document.querySelector("#verdict").innerHTML = "Enemy wins!";
+    document.querySelector("#verdict").innerHTML =
+      "Enemy wins!<br />Please reload the page to play again!";
   }
 }
 
-let timer = 59;
+let timer = 40;
 let timerId;
 document.querySelector("#timer").innerHTML = timer;
 
