@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-size: 10px;
+  font-family: "Press Start 2P", cursive;
 }
 
 .main {
@@ -20,15 +21,17 @@
 
 .player {
   position: relative;
-  height: 30px;
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  border-top: 4px solid white;
+  border-bottom: 4px solid white;
+  border-left: 4px solid white;
 }
 
 .player-health {
   position: absolute;
-  background-color: rgb(0, 195, 255);
+  background-color: #818cf8;
   top: 0;
   right: 0;
   bottom: 0;
@@ -36,31 +39,35 @@
 }
 
 .player-health-bar {
-  background-color: yellow;
+  background-color: red;
   width: 100%;
   height: 30px;
 }
 
 .timer {
-  background-color: violet;
+  background-color: black;
   width: 100px;
-  height: 100px;
+  height: 50px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 1.7rem;
+  color: white;
+  border: 4px solid white;
 }
 
 .enemy {
   position: relative;
-  height: 30px;
   width: 100%;
+  border-top: 4px solid white;
+  border-right: 4px solid white;
+  border-bottom: 4px solid white;
 }
 
 .enemy-health {
   position: absolute;
-  background-color: blue;
+  background-color: #818cf8;
   top: 0;
   right: 0;
   bottom: 0;
@@ -69,7 +76,7 @@
 }
 
 .enemy-health-bar {
-  background-color: yellow;
+  background-color: red;
   width: 100%;
   height: 30px;
 }
