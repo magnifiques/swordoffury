@@ -27,7 +27,7 @@ function determineWinner({ player, enemy, timerId }) {
   }
 }
 
-let timer = 7;
+let timer = 59;
 let timerId;
 document.querySelector("#timer").innerHTML = timer;
 
