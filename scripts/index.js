@@ -63,11 +63,19 @@ const player = new Fighter({
       frameMax: 6,
     },
   },
+  attackBox: {
+    offset: {
+      x: 100,
+      y: 50,
+    },
+    width: 160,
+    height: 50,
+  },
 });
 
 const enemy = new Fighter({
   position: {
-    x: 400,
+    x: 800,
     y: 0,
   },
   velocity: {
@@ -103,6 +111,14 @@ const enemy = new Fighter({
       imgSrc: "../sprites/characters/1/attack1.png",
       frameMax: 4,
     },
+  },
+  attackBox: {
+    offset: {
+      x: -172,
+      y: 50,
+    },
+    width: 172,
+    height: 50,
   },
 });
 
@@ -186,13 +202,14 @@ function animate() {
   //   enemy.attackBox.width = -50;
   // }
 
-  //Detection of Collision
+  //!Detection of Collision
   if (
     rectangularCollision({
       rectangle1: player,
       rectangle2: enemy,
     }) &&
-    player.isAttacking
+    player.isAttacking &&
+    player.currentFrame === 4
   ) {
     console.log("player1 hit!");
     enemy.health -= 20;
@@ -200,12 +217,18 @@ function animate() {
     document.querySelector("#enemyHealth").style.width = `${enemy.health}%`;
   }
 
+  //!player misses
+  if (player.isAttacking && player.currentFrame === 4) {
+    player.isAttacking = false;
+  }
+
   if (
     rectangularCollision({
       rectangle1: enemy,
       rectangle2: player,
     }) &&
-    enemy.isAttacking
+    enemy.isAttacking &&
+    enemy.currentFrame === 2
   ) {
     console.log("player2 hit!");
     player.health -= 20;
@@ -213,6 +236,10 @@ function animate() {
     enemy.isAttacking = false;
   }
 
+  //!enemy misses
+  if (enemy.isAttacking && enemy.currentFrame === 4) {
+    enemy.isAttacking = false;
+  }
   //Find out winner by zero health
   if (player.health <= 0 || enemy.health <= 0) {
     determineWinner({ player, enemy, timerId });
