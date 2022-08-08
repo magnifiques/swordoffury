@@ -66,6 +66,10 @@ const player = new Fighter({
       imgSrc: "../sprites/characters/0/Take-Hit-white.png",
       frameMax: 4,
     },
+    death: {
+      imgSrc: "../sprites/characters/0/death.png",
+      frameMax: 6,
+    },
   },
   attackBox: {
     offset: {
@@ -117,6 +121,10 @@ const enemy = new Fighter({
     takeHit: {
       imgSrc: "../sprites/characters/1/TakeHit.png",
       frameMax: 3,
+    },
+    death: {
+      imgSrc: "../sprites/characters/1/Death.png",
+      frameMax: 7,
     },
   },
   attackBox: {
@@ -255,41 +263,43 @@ function animate() {
 animate();
 
 window.addEventListener("keydown", (event) => {
-  switch (event.key) {
-    case "d":
-      keys.d.pressed = true;
-      player.lastKey = "d";
-      break;
-    case "a":
-      keys.a.pressed = true;
-      player.lastKey = "a";
-      break;
-    case "w":
-      keys.a.pressed = true;
-      player.velocity.y = -5;
-      break;
-    case " ":
-      player.attack();
-      break;
+  if (!player.dead && !enemy.dead) {
+    switch (event.key) {
+      case "d":
+        keys.d.pressed = true;
+        player.lastKey = "d";
+        break;
+      case "a":
+        keys.a.pressed = true;
+        player.lastKey = "a";
+        break;
+      case "w":
+        keys.a.pressed = true;
+        player.velocity.y = -5;
+        break;
+      case " ":
+        player.attack();
+        break;
 
-    //Enemy Keystrokes
-    case "ArrowRight":
-      keys.ArrowRight.pressed = true;
-      enemy.lastKey = "ArrowRight";
-      break;
+      //Enemy Keystrokes
+      case "ArrowRight":
+        keys.ArrowRight.pressed = true;
+        enemy.lastKey = "ArrowRight";
+        break;
 
-    case "ArrowLeft":
-      keys.ArrowLeft.pressed = true;
-      enemy.lastKey = "ArrowLeft";
-      break;
+      case "ArrowLeft":
+        keys.ArrowLeft.pressed = true;
+        enemy.lastKey = "ArrowLeft";
+        break;
 
-    case "ArrowUp":
-      keys.ArrowUp.pressed = true;
-      enemy.velocity.y = -5;
-      break;
-    case "Backspace":
-      enemy.attack();
-      break;
+      case "ArrowUp":
+        keys.ArrowUp.pressed = true;
+        enemy.velocity.y = -5;
+        break;
+      case "Backspace":
+        enemy.attack();
+        break;
+    }
   }
 });
 
